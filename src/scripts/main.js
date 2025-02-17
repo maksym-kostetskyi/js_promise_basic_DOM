@@ -7,6 +7,7 @@ function handlerSuccess() {
 
   messageElement.className = 'message';
   messageElement.innerHTML = 'Promise was resolved!';
+  document.body.appendChild(messageElement);
 }
 
 function handlerError() {
@@ -14,17 +15,18 @@ function handlerError() {
 
   messageElement.className = 'message error-message';
   messageElement.innerHTML = 'Promise was rejected!';
+  document.body.appendChild(messageElement);
 }
 
-const promise1 = new Promise((resolve, reject) => {
-  resolve('click', logo);
-  reject(new Error('error'));
+const promise1 = new Promise((resolve) => {
+  logo.addEventListener('click', () => {
+    resolve();
+  });
 });
 
 const promise2 = new Promise((resolve, reject) => {
-  resolve('click', logo);
   setTimeout(() => reject(new Error('error')), 3000);
 });
 
-promise1.then(handlerSuccess(), handlerError());
-promise2.then(handlerSuccess(), handlerError());
+promise1.then(handlerSuccess).catch(handlerError);
+promise2.then(handlerSuccess).catch(handlerError);
